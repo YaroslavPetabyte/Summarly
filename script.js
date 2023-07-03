@@ -63,6 +63,7 @@ function elementChange(elem, numRundom) {
     for(let i = elem.length - 1; i >= 0; i--) {
         const input = elem[i].firstChild;
         input.removeAttribute('disabled');
+        input.classList.add("number" + i);
         input.addEventListener('input', inputHeandler)
         approvalofElements(input, i, numRundom);
         // if(i === 2) continue;
@@ -83,6 +84,24 @@ function approvalofElements(elems, index, numRundom) {
         setNum(elems, index, numRundom);
     })
 }
+
+let numberChange = 0;
+let columnTab = 0;
+
+document.addEventListener('keydown', function(e){
+    if(e.key == 'ArrowRight') {
+        if(numberChange < 4) {
+            numberChange++
+        }
+        focusElem(document.querySelectorAll('.number' + numberChange)[columnTab])
+    }
+    if(e.key == 'ArrowLeft') {
+        if(numberChange > 0) {
+            numberChange--
+        }
+        focusElem(document.querySelectorAll('.number' + numberChange)[columnTab])
+    }
+})
 
 function inputHeandler() {
     this.value = this.value.replace(/[^0-9\.\,]/g, '');
@@ -128,6 +147,8 @@ function nextColumn(numRundom) {
     if(youLose(selectTheNextColumn, colactionAllColumns)) return
     activationOfTheActiveColumn(colactionAllColumns[selectTheNextColumn], numRundom);
     selectTheNextColumn += 1;
+    columnTab++;
+    numberChange = 0;
 }
 
 function checkingForWin(arr, numRundom) {

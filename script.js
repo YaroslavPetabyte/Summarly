@@ -91,15 +91,36 @@ let columnTab = 0;
 document.addEventListener('keydown', function(e){
     if(e.key == 'ArrowRight') {
         if(numberChange < 4) {
-            numberChange++
-        }
+            console.log(numberChange)
+            numberChange++;
+            if(document.querySelectorAll('.number' + numberChange)[columnTab].classList.contains('prepaped')) {
+                numberChange++
+                if(document.querySelectorAll('.number' + numberChange)[columnTab].classList.contains('prepaped')) {
+                    numberChange++;
+                    if(document.querySelectorAll('.number' + numberChange)[columnTab].classList.contains('prepaped')) {
+                        numberChange++;
+                    }
+                }
+            }
         focusElem(document.querySelectorAll('.number' + numberChange)[columnTab])
+        }
+
     }
     if(e.key == 'ArrowLeft') {
         if(numberChange > 0) {
-            numberChange--
-        }
+            console.log(numberChange)
+            numberChange--;
+            if(document.querySelectorAll('.number' + numberChange)[columnTab].classList.contains('prepaped')) {
+                numberChange--;
+                if(document.querySelectorAll('.number' + numberChange)[columnTab].classList.contains('prepaped')) {
+                    numberChange--;
+                    if(document.querySelectorAll('.number' + numberChange)[columnTab].classList.contains('prepaped')) {
+                        numberChange--;
+                    }
+                }
+            }
         focusElem(document.querySelectorAll('.number' + numberChange)[columnTab])
+        }
     }
 })
 

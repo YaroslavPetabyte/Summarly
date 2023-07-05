@@ -4,12 +4,13 @@ const adderStart = document.querySelector('.adder__start');
 
 const colactionAllColumns = Array.from(adderGrid.tBodies[0].children);
 
-
 let dynamicArray = [];
 let selectTheNextColumn = 1;
 let orderNum;
 let currentColumn;
 let accumArray = [];
+let numberChange = 0;
+let columnTab = 0;
 
 function randomNumber() {
     let random = (Math.round(Math.random() * 100000)).toString();
@@ -74,8 +75,12 @@ function elementChange(elem, numRundom) {
 }
 
 function focusElem(elem) {
-    elem.focus()
+    try {
+        elem.focus()
+    } catch(e) {
+    }
 }
+
 
 function approvalofElements(elems, index, numRundom) {
     elems.addEventListener('keypress', function(e){
@@ -85,18 +90,27 @@ function approvalofElements(elems, index, numRundom) {
     })
 }
 
-let numberChange = 0;
-let columnTab = 0;
-
 function checkFilledCell(operator) {
-    if(document.querySelectorAll('.number' + numberChange)[columnTab].classList.contains('prepaped')) {
-        numberChange = numberChange + operator;
-        checkFilledCell(operator)
+    try {
+        if(document.querySelectorAll('.number' + numberChange)[columnTab].classList.contains('prepaped')) {
+            numberChange = numberChange + operator;
+            checkFilledCell(operator)
+        }
+    } catch(e) {
+        numberChange = numberChange - operator;
     }
 }
 
+// focus on element
+window.addEventListener('click', e => {
+    let curElement = document.activeElement
+    let numFocusElem = parseInt(curElement.className.match(/\d+/));
+    numberChange = numFocusElem;
+});
+
 document.addEventListener('keydown', function(e){
     if(e.key == 'ArrowRight') {
+        if(numberChange === 4) numberChange = -1;
         if(numberChange < 4) {
             numberChange++;
             checkFilledCell(1);
@@ -105,13 +119,15 @@ document.addEventListener('keydown', function(e){
 
     }
     if(e.key == 'ArrowLeft') {
+        if(numberChange === 0) numberChange = 5;
         if(numberChange > 0) {
             numberChange--;
             checkFilledCell(-1);
         focusElem(document.querySelectorAll('.number' + numberChange)[columnTab])
         }
     }
-})
+});
+/// focus on element
 
 function inputHeandler() {
     this.value = this.value.replace(/[^0-9]/g, '');
@@ -127,8 +143,8 @@ function setNum(elem, index, numRundom) {
 
 function arrangementOfTheArray(arr, numRundom) {
     if(arr.length !== 5 || arr.includes(undefined)) return
-    console.log(numRundom)
-    console.log(arr)
+    // console.log(numRundom)
+    // console.log(arr)
     for (let i = 0; i < numRundom.length; i++) {
         for(let j = 0; j < numRundom.length; j++) {
             if(numRundom[i] === arr[j]) {
@@ -153,7 +169,6 @@ function greenRepainting(index) {
 }
 
 function nextColumn(numRundom) {
-
     if(youLose(selectTheNextColumn, colactionAllColumns)) return
     activationOfTheActiveColumn(colactionAllColumns[selectTheNextColumn], numRundom);
     selectTheNextColumn += 1;
@@ -173,7 +188,6 @@ function checkingForWin(arr, numRundom) {
         document.location.reload();
         return true
     }
-
 }
 
 function youLose(selectTheNextColumn, colactionAllColumns) {

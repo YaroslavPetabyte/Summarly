@@ -88,44 +88,33 @@ function approvalofElements(elems, index, numRundom) {
 let numberChange = 0;
 let columnTab = 0;
 
+function checkFilledCell(operator) {
+    if(document.querySelectorAll('.number' + numberChange)[columnTab].classList.contains('prepaped')) {
+        numberChange = numberChange + operator;
+        checkFilledCell(operator)
+    }
+}
+
 document.addEventListener('keydown', function(e){
     if(e.key == 'ArrowRight') {
         if(numberChange < 4) {
-            console.log(numberChange)
             numberChange++;
-            if(document.querySelectorAll('.number' + numberChange)[columnTab].classList.contains('prepaped')) {
-                numberChange++
-                if(document.querySelectorAll('.number' + numberChange)[columnTab].classList.contains('prepaped')) {
-                    numberChange++;
-                    if(document.querySelectorAll('.number' + numberChange)[columnTab].classList.contains('prepaped')) {
-                        numberChange++;
-                    }
-                }
-            }
+            checkFilledCell(1);
         focusElem(document.querySelectorAll('.number' + numberChange)[columnTab])
         }
 
     }
     if(e.key == 'ArrowLeft') {
         if(numberChange > 0) {
-            console.log(numberChange)
             numberChange--;
-            if(document.querySelectorAll('.number' + numberChange)[columnTab].classList.contains('prepaped')) {
-                numberChange--;
-                if(document.querySelectorAll('.number' + numberChange)[columnTab].classList.contains('prepaped')) {
-                    numberChange--;
-                    if(document.querySelectorAll('.number' + numberChange)[columnTab].classList.contains('prepaped')) {
-                        numberChange--;
-                    }
-                }
-            }
+            checkFilledCell(-1);
         focusElem(document.querySelectorAll('.number' + numberChange)[columnTab])
         }
     }
 })
 
 function inputHeandler() {
-    this.value = this.value.replace(/[^0-9\.\,]/g, '');
+    this.value = this.value.replace(/[^0-9]/g, '');
 }
 
 function setNum(elem, index, numRundom) {
